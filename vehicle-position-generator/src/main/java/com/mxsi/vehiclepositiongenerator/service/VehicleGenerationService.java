@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 public class VehicleGenerationService {
@@ -18,6 +19,9 @@ public class VehicleGenerationService {
 
     @Autowired
     private VehicleCache vehicleCache;
+
+    @Autowired
+    private VehiclePositionUpdaterService vehiclePositionUpdaterService;
 
     /**
      * Generate a list of vehicles, and pass them to the vehicle cache.
@@ -37,6 +41,24 @@ public class VehicleGenerationService {
             vehicleCache.cacheVehicles(vehicleList);
         } else {
             LOG.warn("VehicleGenerationService - generateVehicles(request={}), Failed to validate", request);
+        }
+    }
+
+    /**
+     * Generate vehicle position updates
+     */
+    public void generateUpdates() {
+        Map<Integer, List<Vehicle>> districtIdVehicleListMap = vehicleCache.getDistrictIdToVehicleMap();
+        districtIdVehicleListMap.entrySet().parallelStream().forEach(entry -> {
+            vehiclePositionUpdaterService.updateRandomVehiclePositions(entry.getValue());
+        });
+
+        try {
+            LOG.info("Finished updating. Sleeping for 10 seconds...");
+            Thread.sleep(10000);
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 

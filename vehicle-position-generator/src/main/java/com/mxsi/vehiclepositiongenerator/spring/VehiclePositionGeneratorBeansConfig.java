@@ -2,6 +2,7 @@ package com.mxsi.vehiclepositiongenerator.spring;
 
 import com.mxsi.vehiclepositiongenerator.api.cache.VehicleCache;
 import com.mxsi.vehiclepositiongenerator.service.VehicleGenerationService;
+import com.mxsi.vehiclepositiongenerator.service.VehiclePositionUpdaterService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -13,8 +14,13 @@ public class VehiclePositionGeneratorBeansConfig {
         return new VehicleCache();
     }
 
-    @Bean
+    @Bean(name = "vehicleGenerationService")
     public VehicleGenerationService vehicleGenerationService() {
         return new VehicleGenerationService();
+    }
+
+    @Bean(name = "vehiclePositionUpdaterService")
+    public VehiclePositionUpdaterService vehiclePositionUpdaterService(){
+        return new VehiclePositionUpdaterService();
     }
 }

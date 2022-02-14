@@ -68,4 +68,16 @@ public class Vehicle {
     public void setLastUpdatedTime(final Date lastUpdatedTime) {
         this.lastUpdatedTime = lastUpdatedTime;
     }
+
+    @Override
+    public String toString() {
+        return "Vehicle{" +
+                "version=" + version +
+                ", districtId=" + districtId +
+                ", vehicleId=" + vehicleId +
+                ", vehicleLat=" + vehicleLat +
+                ", vehicleLong=" + vehicleLong +
+                ", lastUpdatedTime=" + lastUpdatedTime +
+                '}';
+    }
 }
